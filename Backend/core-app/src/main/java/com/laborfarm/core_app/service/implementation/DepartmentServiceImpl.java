@@ -1,12 +1,10 @@
 package com.laborfarm.core_app.service.implementation;
 
 import com.laborfarm.core_app.entity.Department;
-import com.laborfarm.core_app.entity.User;
 import com.laborfarm.core_app.repository.DepartmentRepository;
 import com.laborfarm.core_app.service.DepartmentService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.DepartmentDto;
-import com.laborfarm.core_app.service.exception.department.DepartmentAlreadyExistsException;
 import com.laborfarm.core_app.service.exception.department.DepartmentNotActiveException;
 import com.laborfarm.core_app.service.exception.department.DepartmentNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -37,6 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         //Saving
         department.setActive(true);
+        department.setCreatedAt(new Date());
         Department savedDepartment = departmentRepository.save(department);
 
         return CustomResponseDto.success(HttpStatus.CREATED.value(), convertToDto(savedDepartment));
@@ -76,15 +75,17 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setUpdatedAt(new Date());
         department = departmentRepository.save(department);
 
-        return CustomResponseDto.success(HttpStatus.OK.value(), convertToDto(departmentRepository.save(department)));
+        return CustomResponseDto.success(HttpStatus.OK.value(), convertToDto(department));
     }
 
     @Override
     public CustomResponseDto deleteDepartment(UUID id) {
         Department department = departmentRepository.findByIdAndIsActiveTrue(id);
+
         if (department == null) {
             throw new DepartmentNotFoundException();
         }
+
         department.setUpdatedAt(new Date());
         department.setActive(false);
         departmentRepository.save(department);

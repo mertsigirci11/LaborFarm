@@ -86,9 +86,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public CustomResponseDto deleteUserById(UUID id) {
         User user = userRepository.findByIdAndIsActiveTrue(id);
+
         if (user == null) {
             throw new UserNotFoundException();
         }
+
         user.setUpdatedAt(new Date());
         user.setActive(false);
         userRepository.save(user);

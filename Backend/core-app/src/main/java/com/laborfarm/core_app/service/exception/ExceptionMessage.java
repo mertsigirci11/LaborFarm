@@ -11,6 +11,11 @@ public class ExceptionMessage {
 
     //DEPARTMENT
     public static final String DEPARTMENT_ALREADY_EXISTS = "Department already exists.";
-    public static final String DEPARTMENT_NOT_ACTIVE = "Department is not active.";
-    public static final String DEPARTMENT_NOT_FOUND = "Department not found.";
+    public static final String DEPARTMENT_NOT_ACTIVE = "Department exists but is not active.";
+    public static final String DEPARTMENT_NOT_FOUND = "Department not found with the given ID.";
+
+    //PROJECT
+    public static final String PROJECT_NOT_FOUND = "Project not found with the given ID.";
+    public static final String PROJECT_ALREADY_EXISTS = "Project already exists.";
+    public static final String PROJECT_NOT_ACTIVE = "Project exists but is not active.";
 }

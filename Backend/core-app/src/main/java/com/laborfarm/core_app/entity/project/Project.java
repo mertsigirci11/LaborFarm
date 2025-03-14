@@ -21,12 +21,9 @@ import java.util.List;
 public class Project extends BaseEntity {
 
     @Column(name = "project_name", length = 70)
-    @NotNull(message = "Project name can't be null.")
-    @Size(min = 2, max = 70, message = "Project name must contain between 2 and 70 characters.")
     private String name;
 
     @Column(name = "title", length = 250)
-    @Size(max = 250, message = "Title must contain maximum 250 characters.")
     private String title;
 
     @Column(name = "description")
