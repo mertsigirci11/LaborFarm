@@ -5,14 +5,14 @@ import com.laborfarm.core_app.entity.task.FileInfo;
 import com.laborfarm.core_app.entity.task.Task;
 import com.laborfarm.core_app.entity.task.TaskComment;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -20,17 +20,28 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User{
+
+    @Id
+    private UUID id;
 
     @Column(name = "first_name", nullable = false, length = 50)
-    @NotNull(message = "First name can't be null.")
-    @Size(min = 2, max = 50, message = "First name must contain between 2 and 70 characters.")
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 50)
-    @NotNull(message = "Last name can't be null.")
-    @Size(min = 2, max = 50, message = "Last name must contain between 2 and 70 characters.")
     private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "creating_date")
+    private Date createdAt;
+
+    @Column(name = "updating_date")
+    private Date updatedAt;
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectMember> projectMembers;

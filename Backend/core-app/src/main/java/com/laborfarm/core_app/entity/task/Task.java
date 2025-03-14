@@ -36,7 +36,7 @@ public class Task extends BaseEntity {
     private PriorityEntity priority;
 
     @ManyToOne
-    @JoinColumn(name = "assignee_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "assignee_id", referencedColumnName = "id")
     private User assignee;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
