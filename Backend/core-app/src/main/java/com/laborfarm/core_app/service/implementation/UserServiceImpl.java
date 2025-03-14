@@ -5,9 +5,9 @@ import com.laborfarm.core_app.repository.UserRepository;
 import com.laborfarm.core_app.service.UserService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.UserDto;
-import com.laborfarm.core_app.service.exception.UserAlreadyExistsException;
-import com.laborfarm.core_app.service.exception.UserNotActiveException;
-import com.laborfarm.core_app.service.exception.UserNotFoundException;
+import com.laborfarm.core_app.service.exception.user.UserAlreadyExistsException;
+import com.laborfarm.core_app.service.exception.user.UserNotActiveException;
+import com.laborfarm.core_app.service.exception.user.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setUpdatedAt(new Date());
+        user = userRepository.save(user);
 
         return CustomResponseDto.success(HttpStatus.OK.value(), convertToDto(user));
     }

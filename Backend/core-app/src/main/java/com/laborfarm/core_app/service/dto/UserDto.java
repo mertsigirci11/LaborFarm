@@ -25,6 +25,4 @@ public class UserDto {
     private String email;
     private Date createdAt;
     private Date updatedAt;
-    @JsonProperty("isActive")
-    private boolean isActive;
 }
