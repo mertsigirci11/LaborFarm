@@ -18,4 +18,7 @@ public class ExceptionMessage {
     public static final String PROJECT_NOT_FOUND = "Project not found with the given ID.";
     public static final String PROJECT_ALREADY_EXISTS = "Project already exists.";
     public static final String PROJECT_NOT_ACTIVE = "Project exists but is not active.";
+
+    //STATUS
+    public static final String NO_MATCHING_STATUS = "No matching status found.";
 }

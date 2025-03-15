@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @Getter
 @Setter
-public class ProjectDto {
+public class ProjectRequestDto {
     private UUID id;
 
     @NotNull(message = "Project name can't be null.")

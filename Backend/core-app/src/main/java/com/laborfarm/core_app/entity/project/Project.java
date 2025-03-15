@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,11 +30,17 @@ public class Project extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
+    @Column(name = "department_id", insertable = false, updatable = false)
+    private UUID departmentId;
+
+    @Column(name = "status_id", insertable = false, updatable = false)
+    private int statusId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", referencedColumnName = "id", nullable = false)
     private Department department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
     private StatusEntity status;
 

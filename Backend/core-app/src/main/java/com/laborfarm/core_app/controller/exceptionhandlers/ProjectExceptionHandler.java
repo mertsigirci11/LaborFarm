@@ -1,17 +1,17 @@
 package com.laborfarm.core_app.controller.exceptionhandlers;
 
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
-import com.laborfarm.core_app.service.dto.ProjectDto;
+import com.laborfarm.core_app.service.dto.ProjectResponseDto;
 import com.laborfarm.core_app.service.exception.project.ProjectAlreadyExists;
 import com.laborfarm.core_app.service.exception.project.ProjectNotActiveException;
 import com.laborfarm.core_app.service.exception.project.ProjectNotFoundException;
+import com.laborfarm.core_app.service.exception.status.NoMatchingStatusException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,11 @@ public class ProjectExceptionHandler {
     @ExceptionHandler({
             ProjectNotActiveException.class,
             ProjectNotFoundException.class,
-            ProjectAlreadyExists.class})
+            ProjectAlreadyExists.class,
+            NoMatchingStatusException.class})
     @ResponseBody
-    public ResponseEntity<CustomResponseDto<ProjectDto>> handleException(Exception ex) {
-        CustomResponseDto<ProjectDto> responseDto = new CustomResponseDto<>();
+    public ResponseEntity<CustomResponseDto<ProjectResponseDto>> handleException(Exception ex) {
+        CustomResponseDto<ProjectResponseDto> responseDto = new CustomResponseDto<>();
         responseDto.setStatusCode(HttpStatus.BAD_REQUEST.value());
 
         List<String> errors = new ArrayList<>();
