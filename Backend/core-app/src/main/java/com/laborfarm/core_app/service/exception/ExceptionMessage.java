@@ -18,6 +18,8 @@ public class ExceptionMessage {
     public static final String PROJECT_NOT_FOUND = "Project not found with the given ID.";
     public static final String PROJECT_ALREADY_EXISTS = "Project already exists.";
     public static final String PROJECT_NOT_ACTIVE = "Project exists but is not active.";
+    public static final String USER_ALREADY_EXISTS_IN_PROJECT = "User already exists in the project.";
+    public static final String PROJECT_MEMBER_NOT_FOUND = "Project member not found with the given ID.";
 
     //STATUS
     public static final String NO_MATCHING_STATUS = "No matching status found.";
