@@ -2,6 +2,7 @@ package com.laborfarm.core_app.entity.task;
 
 import com.laborfarm.core_app.entity.BaseEntity;
 import com.laborfarm.core_app.entity.User;
+import com.laborfarm.core_app.entity.project.Project;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -27,6 +29,18 @@ public class Task extends BaseEntity {
     @Column(name = "cancelled_blocked_reason")
     private String cancelledOrBlockedReason;
 
+    @Column(name = "assignee_id", insertable = false, updatable = false)
+    private UUID assigneeId;
+
+    @Column(name = "project_id", insertable = false, updatable = false)
+    private UUID projectId;
+
+    @Column(name = "state_id", insertable = false, updatable = false)
+    private int stateId;
+
+    @Column(name = "priority_id", insertable = false, updatable = false)
+    private int priorityId;
+
     @ManyToOne
     @JoinColumn(name = "state_id", referencedColumnName = "id", nullable = false)
     private StateEntity state;
@@ -38,6 +52,10 @@ public class Task extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "assignee_id", referencedColumnName = "id")
     private User assignee;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<TaskComment> taskComments;

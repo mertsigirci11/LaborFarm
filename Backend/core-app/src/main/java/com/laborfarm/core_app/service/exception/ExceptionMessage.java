@@ -23,4 +23,13 @@ public class ExceptionMessage {
 
     //STATUS
     public static final String NO_MATCHING_STATUS = "No matching status found.";
+
+    //STATE
+    public static final String STATE_NOT_FOUND = "State not found with the given ID.";
+
+    //PRIORITY
+    public static final String PRIORITY_NOT_FOUND = "Priority not found with the given ID.";
+
+    //TASK
+    public static final String TASK_NOT_FOUND = "Task not found with the given ID.";
 }

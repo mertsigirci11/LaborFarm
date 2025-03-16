@@ -2,6 +2,7 @@ package com.laborfarm.core_app.entity.project;
 
 import com.laborfarm.core_app.entity.BaseEntity;
 import com.laborfarm.core_app.entity.Department;
+import com.laborfarm.core_app.entity.task.Task;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -46,4 +47,7 @@ public class Project extends BaseEntity {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectMember> projectMembers;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
 }
