@@ -36,4 +36,5 @@ public class ExceptionMessage {
     public static final String STATE_CANT_BE_BLOCKED = "State can't set as blocked if it is BACKLOG.";
     public static final String STATE_CANT_BE_CANCELLED = "State can't set as cancelled if it is COMPLETED.";
     public static final String REASON_IS_MANDATORY = "Cancelled or Blocked reason is mandatory";
+    public static final String TASK_COMMENT_NOT_FOUND = "Task comment not found with the given ID.";
 }

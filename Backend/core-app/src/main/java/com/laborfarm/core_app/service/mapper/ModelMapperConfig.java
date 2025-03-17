@@ -3,8 +3,10 @@ package com.laborfarm.core_app.service.mapper;
 import com.laborfarm.core_app.entity.project.Project;
 import com.laborfarm.core_app.entity.project.ProjectMember;
 import com.laborfarm.core_app.entity.task.Task;
+import com.laborfarm.core_app.entity.task.TaskComment;
 import com.laborfarm.core_app.service.dto.ProjectMemberResponseDto;
 import com.laborfarm.core_app.service.dto.ProjectResponseDto;
+import com.laborfarm.core_app.service.dto.TaskCommentResponseDto;
 import com.laborfarm.core_app.service.dto.TaskResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -42,6 +44,15 @@ public class ModelMapperConfig {
                 map().setPriorityId(source.getPriorityId());
                 map().setProjectId(source.getProjectId());
                 map().setAssigneeId(source.getAssigneeId());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<TaskComment, TaskCommentResponseDto>(){
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setCreatorUserId(source.getCreatorUserId());
+                map().setTaskId(source.getTaskId());
             }
         });
 

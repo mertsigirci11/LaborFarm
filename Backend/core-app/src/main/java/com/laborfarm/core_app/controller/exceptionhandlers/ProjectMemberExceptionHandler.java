@@ -27,14 +27,9 @@ public class ProjectMemberExceptionHandler {
     })
     @ResponseBody
     public ResponseEntity<CustomResponseDto<ProjectMemberResponseDto>> handleException(Exception ex){
-        CustomResponseDto<ProjectMemberResponseDto> responseDto = new CustomResponseDto<>();
-        responseDto.setStatusCode(HttpStatus.BAD_REQUEST.value());
-
         List<String> errors = new ArrayList<>();
         errors.add(ex.getMessage());
-        responseDto.setErrors(errors);
-        responseDto.setData(null);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(CustomResponseDto.fail(HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
     }
 }

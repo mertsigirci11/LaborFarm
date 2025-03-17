@@ -143,11 +143,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //Helper Methods
-    public ProjectResponseDto convertToDto(Project project) {
+    private ProjectResponseDto convertToDto(Project project) {
         return modelMapper.map(project, ProjectResponseDto.class);
     }
 
-    public Project convertToEntity(ProjectRequestDto projectRequestDto) {
+    private Project convertToEntity(ProjectRequestDto projectRequestDto) {
         return modelMapper.map(projectRequestDto, Project.class);
     }
 }
