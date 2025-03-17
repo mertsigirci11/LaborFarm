@@ -25,16 +25,11 @@ public class ProjectExceptionHandler {
             ProjectAlreadyExists.class,
             NoMatchingStatusException.class})
     @ResponseBody
-    public ResponseEntity<CustomResponseDto<ProjectResponseDto>> handleException(Exception ex) {
-        CustomResponseDto<ProjectResponseDto> responseDto = new CustomResponseDto<>();
-        responseDto.setStatusCode(HttpStatus.BAD_REQUEST.value());
-
+    public ResponseEntity<CustomResponseDto> handleException(Exception ex) {
         List<String> errors = new ArrayList<>();
         errors.add(ex.getMessage());
-        responseDto.setErrors(errors);
-        responseDto.setData(null);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(CustomResponseDto.fail(HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

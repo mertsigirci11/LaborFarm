@@ -2,12 +2,10 @@ package com.laborfarm.core_app.service.mapper;
 
 import com.laborfarm.core_app.entity.project.Project;
 import com.laborfarm.core_app.entity.project.ProjectMember;
+import com.laborfarm.core_app.entity.task.FileInfo;
 import com.laborfarm.core_app.entity.task.Task;
 import com.laborfarm.core_app.entity.task.TaskComment;
-import com.laborfarm.core_app.service.dto.ProjectMemberResponseDto;
-import com.laborfarm.core_app.service.dto.ProjectResponseDto;
-import com.laborfarm.core_app.service.dto.TaskCommentResponseDto;
-import com.laborfarm.core_app.service.dto.TaskResponseDto;
+import com.laborfarm.core_app.service.dto.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +51,14 @@ public class ModelMapperConfig {
                 map().setId(source.getId());
                 map().setCreatorUserId(source.getCreatorUserId());
                 map().setTaskId(source.getTaskId());
+            }
+        });
+        
+        modelMapper.addMappings(new PropertyMap<FileInfo, FileInfoResponseDto>() {
+            @Override
+            protected void configure() {
+                map().setTaskId(source.getTaskId());
+                map().setUserId(source.getUserId());
             }
         });
 

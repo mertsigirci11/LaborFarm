@@ -60,6 +60,7 @@ public class TaskServiceImpl implements TaskService {
         task.setActive(true);
         task.setPriorityId(taskRequestDto.getPriorityId());
         task.setStateId(taskRequestDto.getStateId());
+        task.setTitle(taskRequestDto.getTitle());
         task.setUserStoryDescription(taskRequestDto.getUserStoryDescription());
         task.setAcceptanceCriteria(taskRequestDto.getAcceptanceCriteria());
         task.setCancelledOrBlockedReason(taskRequestDto.getCancelledOrBlockedReason());

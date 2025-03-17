@@ -9,6 +9,7 @@ import java.util.UUID;
 @Data
 public class TaskResponseDto {
     private UUID id;
+    private String title;
     private String userStoryDescription;
     private String acceptanceCriteria;
     private String cancelledOrBlockedReason;

@@ -20,6 +20,9 @@ import java.util.UUID;
 @Table(name = "tasks")
 public class Task extends BaseEntity {
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "user_story_desc")
     private String userStoryDescription;
 
