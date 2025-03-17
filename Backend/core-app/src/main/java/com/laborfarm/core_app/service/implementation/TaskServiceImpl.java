@@ -7,9 +7,7 @@ import com.laborfarm.core_app.repository.TaskRepository;
 import com.laborfarm.core_app.service.TaskService;
 import com.laborfarm.core_app.service.dto.*;
 import com.laborfarm.core_app.service.exception.project.ProjectNotFoundException;
-import com.laborfarm.core_app.service.exception.task.PriorityNotFoundException;
-import com.laborfarm.core_app.service.exception.task.StateNofFoundException;
-import com.laborfarm.core_app.service.exception.task.TaskNotFoundException;
+import com.laborfarm.core_app.service.exception.task.*;
 import com.laborfarm.core_app.service.exception.user.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +33,14 @@ public class TaskServiceImpl implements TaskService {
     public CustomResponseDto<TaskResponseDto> addTask(TaskRequestDto taskRequestDto) {
         checkFKExistence(taskRequestDto);
 
-        Task task = modelMapper.map(taskRequestDto, Task.class);
+        Task task = convertToEntity(taskRequestDto);
         task.setCreatedAt(new Date());
         task.setActive(true);
         task.setPriorityId(taskRequestDto.getPriorityId());
         task.setStateId(taskRequestDto.getStateId());
 
         Task savedTask = taskRepository.save(task);
-        TaskResponseDto response = modelMapper.map(savedTask, TaskResponseDto.class);
+        TaskResponseDto response = convertToDto(savedTask);
 
         return CustomResponseDto.success(HttpStatus.CREATED.value(), response);
     }
@@ -50,19 +48,28 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public CustomResponseDto<TaskResponseDto> updateTask(TaskRequestDto taskRequestDto) {
         checkFKExistence(taskRequestDto);
-        checkState(taskRequestDto);
+        Task task = null;
+        checkState(task, taskRequestDto);
 
-        Task task = taskRepository.findByIdAndIsActiveTrue(taskRequestDto.getId());
+        task = taskRepository.findByIdAndIsActiveTrue(taskRequestDto.getId());
         if (task == null) {
             throw new TaskNotFoundException();
         }
 
-        task = modelMapper.map(taskRequestDto, Task.class);
         task.setUpdatedAt(new Date());
         task.setActive(true);
+        task.setPriorityId(taskRequestDto.getPriorityId());
+        task.setStateId(taskRequestDto.getStateId());
+        task.setUserStoryDescription(taskRequestDto.getUserStoryDescription());
+        task.setAcceptanceCriteria(taskRequestDto.getAcceptanceCriteria());
+        task.setCancelledOrBlockedReason(taskRequestDto.getCancelledOrBlockedReason());
+        task.setProjectId(taskRequestDto.getProjectId());
+        task.setAssigneeId(taskRequestDto.getAssigneeId());
 
         Task savedTask = taskRepository.save(task);
-        TaskResponseDto response = modelMapper.map(savedTask, TaskResponseDto.class);
+        TaskResponseDto response = convertToDto(savedTask);
+        response.setPriorityName(Priority.fromValue(savedTask.getPriorityId()).name());
+        response.setStateName(State.fromValue(savedTask.getStateId()).name());
 
         return CustomResponseDto.success(HttpStatus.OK.value(), response);
     }
@@ -87,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
             throw new TaskNotFoundException();
         }
 
-        TaskResponseDto response = modelMapper.map(task, TaskResponseDto.class);
+        TaskResponseDto response = convertToDto(task);
 
         return CustomResponseDto.success(HttpStatus.OK.value(), response);
     }
@@ -104,34 +111,54 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public CustomResponseDto<List<TaskResponseDto>> getAllTasksByStateId(int stateId) {
-        return null;
+        List<TaskResponseDto> tasksFilteredByState = taskRepository.getTasksByStateId(stateId)
+                .stream()
+                .map(this::convertToDto)
+                .toList();
+
+        return CustomResponseDto.success(HttpStatus.OK.value(), tasksFilteredByState);
     }
 
     @Override
     public CustomResponseDto<List<TaskResponseDto>> getAllTasksByPriorityId(int priorityId) {
-        return null;
+        List<TaskResponseDto> tasksFilteredByPriority = taskRepository.getTasksByPriorityId(priorityId)
+                .stream()
+                .map(this::convertToDto)
+                .toList();
+
+        return CustomResponseDto.success(HttpStatus.OK.value(), tasksFilteredByPriority);
     }
 
     @Override
     public CustomResponseDto<List<TaskResponseDto>> getProjectTasks(UUID projectId) {
-        return null;
+        List<TaskResponseDto> projectTasks = taskRepository.getTasksByProjectId(projectId)
+                .stream()
+                .map(this::convertToDto)
+                .toList();
+
+        return CustomResponseDto.success(HttpStatus.OK.value(), projectTasks);
     }
 
     @Override
     public CustomResponseDto<List<TaskResponseDto>> getUserTasks(UUID userId) {
-        return null;
+        List<TaskResponseDto> userTasks = taskRepository.getTasksByUserId(userId)
+                .stream()
+                .map(this::convertToDto)
+                .toList();
+
+        return CustomResponseDto.success(HttpStatus.OK.value(), userTasks);
     }
 
     //Helper methods
-    private TaskResponseDto convertToDto(Task task) {
+    private TaskResponseDto convertToDto (Task task) {
         return modelMapper.map(task, TaskResponseDto.class);
     }
 
-    private Task convertToEntity(TaskRequestDto taskRequestDto) {
+    private Task convertToEntity (TaskRequestDto taskRequestDto) {
         return modelMapper.map(taskRequestDto, Task.class);
     }
 
-    private void checkFKExistence(TaskRequestDto taskRequestDto){
+    private void checkFKExistence (TaskRequestDto taskRequestDto){
         //Check if project exists
         boolean isProjectExists = taskRepository.isProjectExist(taskRequestDto.getProjectId());
         if (!isProjectExists) {
@@ -147,7 +174,7 @@ public class TaskServiceImpl implements TaskService {
         //Check if state exists
         State state = State.fromValue(taskRequestDto.getStateId());
         if (state == null) {
-            throw new StateNofFoundException();
+            throw new StateNotFoundException();
         }
 
         //Check if priority exists
@@ -157,6 +184,29 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    private void checkState(TaskRequestDto taskRequestDto) {
+    private void checkState (Task task, TaskRequestDto taskRequestDto) {
+        task = taskRepository.findByIdAndIsActiveTrue(taskRequestDto.getId());
+        if (task == null) {
+            throw new TaskNotFoundException();
+        }
+
+        //If task's state is completed
+        if (State.fromValue(task.getStateId()) == State.COMPLETED) {
+            throw new CompletedTaskException();
+        }
+
+        //Blocked path control
+        if (State.fromValue(taskRequestDto.getStateId()) == State.BLOCKED
+                && State.fromValue(task.getStateId()) == State.BACKLOG) {
+            throw new StateCantSetAsBlockedException();
+        }
+
+
+        //Cancelled Or Blocked Reason control
+        if (State.fromValue(taskRequestDto.getStateId()) == State.CANCELLED || State.fromValue(taskRequestDto.getStateId()) == State.BLOCKED) {
+            if(taskRequestDto.getCancelledOrBlockedReason().isEmpty()){
+                throw new CancelledOrBlockedReasonException();
+            }
+        }
     }
 }

@@ -1,13 +1,14 @@
 package com.laborfarm.core_app.service.dto;
 
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 public class TaskResponseDto {
-    private int id;
+    private UUID id;
     private String userStoryDescription;
     private String acceptanceCriteria;
     private String cancelledOrBlockedReason;
@@ -22,7 +23,7 @@ public class TaskResponseDto {
     private int stateId;
     private String stateName;
     //Priority
-    private String priorityId;
+    private int priorityId;
     private String priorityName;
     //Date
     private Date createdAt;

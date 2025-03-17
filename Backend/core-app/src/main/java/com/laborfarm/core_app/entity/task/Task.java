@@ -29,32 +29,32 @@ public class Task extends BaseEntity {
     @Column(name = "cancelled_blocked_reason")
     private String cancelledOrBlockedReason;
 
-    @Column(name = "assignee_id", insertable = false, updatable = false)
+    @Column(name = "assignee_id")
     private UUID assigneeId;
 
-    @Column(name = "project_id", insertable = false, updatable = false)
+    @Column(name = "project_id")
     private UUID projectId;
 
-    @Column(name = "state_id", insertable = false, updatable = false)
+    @Column(name = "state_id")
     private int stateId;
 
-    @Column(name = "priority_id", insertable = false, updatable = false)
+    @Column(name = "priority_id")
     private int priorityId;
 
     @ManyToOne
-    @JoinColumn(name = "state_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "state_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private StateEntity state;
 
     @ManyToOne
-    @JoinColumn(name = "priority_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "priority_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private PriorityEntity priority;
 
     @ManyToOne
-    @JoinColumn(name = "assignee_id", referencedColumnName = "id")
+    @JoinColumn(name = "assignee_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User assignee;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JoinColumn(name = "project_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Project project;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)

@@ -29,7 +29,7 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.isActive = true AND u.id = :userId")
     boolean isAssigneeExist(@Param("userId")UUID userId);
 
-    @Query("SELECT COUNT(p) > 0 FROM Project p WHERE p.isActive = true AND p.id = :prprojectId")
+    @Query("SELECT COUNT(p) > 0 FROM Project p WHERE p.isActive = true AND p.id = :projectId")
     boolean isProjectExist(@Param("projectId")UUID projectId);
 
 }

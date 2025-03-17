@@ -32,4 +32,8 @@ public class ExceptionMessage {
 
     //TASK
     public static final String TASK_NOT_FOUND = "Task not found with the given ID.";
+    public static final String TASK_COMPLETED = "Completed task's state can't be changed.";
+    public static final String STATE_CANT_BE_BLOCKED = "State can't set as blocked if it is BACKLOG.";
+    public static final String STATE_CANT_BE_CANCELLED = "State can't set as cancelled if it is COMPLETED.";
+    public static final String REASON_IS_MANDATORY = "Cancelled or Blocked reason is mandatory";
 }
