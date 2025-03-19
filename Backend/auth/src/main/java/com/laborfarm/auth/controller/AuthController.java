@@ -9,7 +9,6 @@ import com.laborfarm.auth.entity.dto.role.RoleRequestDto;
 import com.laborfarm.auth.entity.dto.role.RoleResponseDto;
 import com.laborfarm.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,7 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
-    @DeleteMapping("/role/{id}")
+    @DeleteMapping("/role/{roleId}")
     public ResponseEntity<CustomResponseDto> deleteRole(@PathVariable UUID roleId) {
         CustomResponseDto response = authService.deleteRole(roleId);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));

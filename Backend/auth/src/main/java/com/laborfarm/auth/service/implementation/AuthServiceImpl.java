@@ -104,9 +104,12 @@ public class AuthServiceImpl implements AuthService {
 
         //Save the role
         UserRoleInfo roleToBeSavedOrUpdated = roleInfoRepository.findByProjectId(roleRequestDto.getProjectId());
-
+        if(roleToBeSavedOrUpdated == null) {
+            roleToBeSavedOrUpdated = new UserRoleInfo();
+        }
         roleToBeSavedOrUpdated.setProjectId(roleRequestDto.getProjectId());
-        roleToBeSavedOrUpdated.setUserId(roleRequestDto.getId());
+        roleToBeSavedOrUpdated.setUserId(roleRequestDto.getUserId());
+        roleToBeSavedOrUpdated.setRoleId(roleRequestDto.getRoleId());
         roleToBeSavedOrUpdated.setActive(true);
 
         UserRoleInfo savedRole = roleInfoRepository.save(roleToBeSavedOrUpdated);

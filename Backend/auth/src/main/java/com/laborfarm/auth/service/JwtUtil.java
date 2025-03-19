@@ -9,10 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class JwtUtil {
@@ -24,8 +21,12 @@ public class JwtUtil {
 
         // ProjectId <-> RoleName info map
         Map<String, String> projectRoleMap = new HashMap<>();
-        roles.forEach(role -> projectRoleMap.put(role.getProjectId().toString(),
-                        UserRole.fromValue(role.getRoleId()).name()));
+        roles.forEach(role -> {
+            String key = (role.getRoleId() == UserRole.PROJECT_GROUP_MANAGER.getValue())
+                    ? "SUPER USER"
+                    : role.getProjectId().toString();
+            projectRoleMap.put(key, UserRole.fromValue(role.getRoleId()).name());
+        });
 
         // Claims info entry
         extraClaims.put("userId", user.getId());
