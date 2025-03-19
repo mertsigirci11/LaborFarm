@@ -8,10 +8,12 @@ import com.laborfarm.auth.entity.dto.register.RegisterResponseDto;
 import com.laborfarm.auth.entity.dto.role.RoleRequestDto;
 import com.laborfarm.auth.entity.dto.role.RoleResponseDto;
 
+import java.util.UUID;
+
 public interface AuthService {
     CustomResponseDto<RegisterResponseDto> register(RegisterRequestDto registerRequestDto);
     CustomResponseDto<RegisterResponseDto> adminRegister(RegisterRequestDto registerRequestDto);
     CustomResponseDto<LoginResponseDto> login(LoginRequestDto loginRequestDto);
     CustomResponseDto<RoleResponseDto> createRole(RoleRequestDto roleRequestDto);
-    CustomResponseDto deleteRole(RoleRequestDto roleRequestDto);
+    CustomResponseDto deleteRole(UUID roleId);
 }
