@@ -28,7 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,7 +42,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     public AuthServiceImpl(AuthenticationManager authenticationManager, UserLoginInfoRepository loginInfoRepository,
-                           UserRoleInfoRepository roleInfoRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, KafkaProducerService kafkaProducerService) {
+                           UserRoleInfoRepository roleInfoRepository, JwtUtil jwtUtil,
+                           PasswordEncoder passwordEncoder, KafkaProducerService kafkaProducerService) {
         this.authenticationManager = authenticationManager;
         this.loginInfoRepository = loginInfoRepository;
         this.roleInfoRepository = roleInfoRepository;
@@ -130,19 +130,6 @@ public class AuthServiceImpl implements AuthService {
         return CustomResponseDto.success(HttpStatus.NO_CONTENT.value());
     }
 
-    @Override
-    public boolean verifyToken(String token) {
-        if (!jwtUtil.isTokenValid(token)){
-            return false;
-        }
-        String userEmail = jwtUtil.extractEmail(token);
-        UserLoginInfo user = loginInfoRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new EmailNotFoundException());
-        List<UserRoleInfo> userRoles = roleInfoRepository.findByUserIdAndIsActiveTrue(user.getId());
-        Map<String, String> roleClaims = jwtUtil.extractRoles(token);
-        return false;
-    }
-
     //Helper
     private UserLoginInfo userMapper(RegisterRequestDto registerRequestDto) {
         Optional<UserLoginInfo> userToBeChecked = loginInfoRepository.findByEmail(registerRequestDto.getEmail());
@@ -182,7 +169,7 @@ public class AuthServiceImpl implements AuthService {
         UserLoginInfo userLoginInfo = userMapper(registerRequestDto);
         UserLoginInfo savedUser = loginInfoRepository.save(userLoginInfo);
 
-        //kafka requestBody-> registerResponseDto
+        //Save the data in core_app by kafka
         UserDto savedUserDto = new UserDto();
         savedUserDto.setId(savedUser.getId());
         savedUserDto.setFirstName(registerRequestDto.getFirstName());

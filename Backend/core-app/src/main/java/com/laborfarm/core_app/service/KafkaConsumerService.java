@@ -21,6 +21,5 @@ public class KafkaConsumerService {
     public void consumeMessage(UserDto userDto) {
         userDto.setCreatedAt(new Date());
         userService.addUser(userDto);
-        System.out.println("User saved successfully" + userDto.toString());
     }
 }

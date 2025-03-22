@@ -16,5 +16,4 @@ public interface AuthService {
     CustomResponseDto<LoginResponseDto> login(LoginRequestDto loginRequestDto);
     CustomResponseDto<RoleResponseDto> createRole(RoleRequestDto roleRequestDto);
     CustomResponseDto deleteRole(UUID roleId);
-    boolean verifyToken(String token);
 }
