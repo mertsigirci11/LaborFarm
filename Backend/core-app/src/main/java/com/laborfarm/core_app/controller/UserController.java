@@ -2,7 +2,7 @@ package com.laborfarm.core_app.controller;
 
 import com.laborfarm.core_app.service.UserService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
-import com.laborfarm.core_app.service.dto.UserDto;
+import com.laborfarm.common.UserDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

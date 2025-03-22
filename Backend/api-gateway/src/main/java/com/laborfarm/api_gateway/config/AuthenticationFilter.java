@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -32,12 +33,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     return chain.filter(exchange);
                 }
 
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete(); // Terminate the request if token is not provided and path different from login & register
             }
 
             String token = authHeader.substring(7);
 
             if (!jwtUtil.isTokenValid(token)) {
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete(); // Terminate the request if token is not valid
             }
 
@@ -47,6 +50,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             // Authorization check
             String requestPath = exchange.getRequest().getURI().getPath();
             if (!isAuthorized(requestPath, roles)) {
+                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                 return exchange.getResponse().setComplete(); // Terminate the request if role is not authorized
             }
 

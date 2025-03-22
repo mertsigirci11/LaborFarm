@@ -4,6 +4,7 @@ import com.laborfarm.auth.entity.UserLoginInfo;
 import com.laborfarm.auth.entity.UserRole;
 import com.laborfarm.auth.entity.UserRoleInfo;
 import com.laborfarm.auth.entity.dto.CustomResponseDto;
+import com.laborfarm.common.UserDto;
 import com.laborfarm.auth.entity.dto.login.LoginRequestDto;
 import com.laborfarm.auth.entity.dto.login.LoginResponseDto;
 import com.laborfarm.auth.entity.dto.register.RegisterRequestDto;
@@ -18,6 +19,7 @@ import com.laborfarm.auth.repository.UserLoginInfoRepository;
 import com.laborfarm.auth.repository.UserRoleInfoRepository;
 import com.laborfarm.auth.service.AuthService;
 import com.laborfarm.auth.service.JwtUtil;
+import com.laborfarm.auth.service.KafkaProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,23 +39,22 @@ public class AuthServiceImpl implements AuthService {
     private final UserRoleInfoRepository roleInfoRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
     public AuthServiceImpl(AuthenticationManager authenticationManager, UserLoginInfoRepository loginInfoRepository,
-                           UserRoleInfoRepository roleInfoRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+                           UserRoleInfoRepository roleInfoRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, KafkaProducerService kafkaProducerService) {
         this.authenticationManager = authenticationManager;
         this.loginInfoRepository = loginInfoRepository;
         this.roleInfoRepository = roleInfoRepository;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Override
     public CustomResponseDto<RegisterResponseDto> register(RegisterRequestDto registerRequestDto) {
         RegisterResponseDto response = saveUserLoginInfo(registerRequestDto);
-
-        //Send post request to monolith app user endpoint requestBody-> registerResponseDto
-        //Will be completed
 
         return CustomResponseDto.success(HttpStatus.CREATED.value(), response);
     }
@@ -69,9 +71,6 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         roleInfoRepository.save(userRoleInfo);
-
-        //Send post request to monolith app user endpoint requestBody-> registerResponseDto
-        //Will be completed
 
         return CustomResponseDto.success(HttpStatus.CREATED.value(), response);
     }
@@ -131,6 +130,19 @@ public class AuthServiceImpl implements AuthService {
         return CustomResponseDto.success(HttpStatus.NO_CONTENT.value());
     }
 
+    @Override
+    public boolean verifyToken(String token) {
+        if (!jwtUtil.isTokenValid(token)){
+            return false;
+        }
+        String userEmail = jwtUtil.extractEmail(token);
+        UserLoginInfo user = loginInfoRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new EmailNotFoundException());
+        List<UserRoleInfo> userRoles = roleInfoRepository.findByUserIdAndIsActiveTrue(user.getId());
+        Map<String, String> roleClaims = jwtUtil.extractRoles(token);
+        return false;
+    }
+
     //Helper
     private UserLoginInfo userMapper(RegisterRequestDto registerRequestDto) {
         Optional<UserLoginInfo> userToBeChecked = loginInfoRepository.findByEmail(registerRequestDto.getEmail());
@@ -169,6 +181,15 @@ public class AuthServiceImpl implements AuthService {
     private RegisterResponseDto saveUserLoginInfo(RegisterRequestDto registerRequestDto){
         UserLoginInfo userLoginInfo = userMapper(registerRequestDto);
         UserLoginInfo savedUser = loginInfoRepository.save(userLoginInfo);
+
+        //kafka requestBody-> registerResponseDto
+        UserDto savedUserDto = new UserDto();
+        savedUserDto.setId(savedUser.getId());
+        savedUserDto.setFirstName(registerRequestDto.getFirstName());
+        savedUserDto.setLastName(registerRequestDto.getLastName());
+        savedUserDto.setEmail(savedUser.getEmail());
+
+        kafkaProducerService.sendMessage("user-saving", savedUserDto);
         return registerResponseMapper(registerRequestDto, savedUser);
     }
 }

@@ -1,7 +1,7 @@
 package com.laborfarm.core_app.controller.exceptionhandlers;
 
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
-import com.laborfarm.core_app.service.dto.UserDto;
+import com.laborfarm.common.UserDto;
 import com.laborfarm.core_app.service.exception.user.UserAlreadyExistsException;
 import com.laborfarm.core_app.service.exception.user.UserNotActiveException;
 import com.laborfarm.core_app.service.exception.user.UserNotFoundException;

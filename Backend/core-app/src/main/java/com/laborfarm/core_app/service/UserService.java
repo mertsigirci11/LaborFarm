@@ -1,7 +1,7 @@
 package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
-import com.laborfarm.core_app.service.dto.UserDto;
+import com.laborfarm.common.UserDto;
 
 import java.util.List;
 import java.util.UUID;

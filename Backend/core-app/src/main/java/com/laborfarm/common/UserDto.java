@@ -1,4 +1,4 @@
-package com.laborfarm.core_app.service.dto;
+package com.laborfarm.common;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
