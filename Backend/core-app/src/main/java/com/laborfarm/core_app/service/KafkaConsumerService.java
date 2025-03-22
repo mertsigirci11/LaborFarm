@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class KafkaConsumerService {
 
@@ -17,6 +19,7 @@ public class KafkaConsumerService {
 
     @KafkaListener(topics = "user-saving", groupId = "my-group")
     public void consumeMessage(UserDto userDto) {
+        userDto.setCreatedAt(new Date());
         userService.addUser(userDto);
         System.out.println("User saved successfully" + userDto.toString());
     }
