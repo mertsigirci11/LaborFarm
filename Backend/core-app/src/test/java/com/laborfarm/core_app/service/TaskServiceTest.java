@@ -1,4 +1,4 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.entity.task.State;
 import com.laborfarm.core_app.entity.task.Task;
@@ -20,7 +20,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

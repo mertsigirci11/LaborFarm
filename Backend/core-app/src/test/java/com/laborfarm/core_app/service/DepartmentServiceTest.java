@@ -1,4 +1,4 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.entity.Department;
 import com.laborfarm.core_app.repository.DepartmentRepository;

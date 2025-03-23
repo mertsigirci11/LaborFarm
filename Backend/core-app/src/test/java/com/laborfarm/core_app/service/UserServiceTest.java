@@ -1,9 +1,8 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.common.UserDto;
 import com.laborfarm.core_app.entity.User;
 import com.laborfarm.core_app.repository.UserRepository;
-import com.laborfarm.core_app.service.UserService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.exception.user.UserAlreadyExistsException;
 import com.laborfarm.core_app.service.exception.user.UserNotActiveException;
@@ -17,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

@@ -1,11 +1,10 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.entity.task.TaskComment;
 import com.laborfarm.core_app.repository.TaskCommentRepository;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.TaskCommentRequestDto;
 import com.laborfarm.core_app.service.dto.TaskCommentResponseDto;
-import com.laborfarm.core_app.service.dto.TaskResponseDto;
 import com.laborfarm.core_app.service.exception.task.TaskCommentNotFoundException;
 import com.laborfarm.core_app.service.implementation.TaskCommentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

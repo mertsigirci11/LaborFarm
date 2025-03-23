@@ -4,7 +4,6 @@ import com.laborfarm.core_app.service.ProjectMemberService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.ProjectMemberRequestDto;
 import com.laborfarm.core_app.service.dto.ProjectMemberResponseDto;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

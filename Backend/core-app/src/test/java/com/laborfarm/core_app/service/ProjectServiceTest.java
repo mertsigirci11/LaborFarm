@@ -1,10 +1,9 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.entity.Department;
 import com.laborfarm.core_app.entity.project.Project;
 import com.laborfarm.core_app.repository.DepartmentRepository;
 import com.laborfarm.core_app.repository.ProjectRepository;
-import com.laborfarm.core_app.service.ProjectService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.ProjectRequestDto;
 import com.laborfarm.core_app.service.dto.ProjectResponseDto;

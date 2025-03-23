@@ -1,8 +1,7 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.entity.task.FileInfo;
 import com.laborfarm.core_app.repository.FileInfoRepository;
-import com.laborfarm.core_app.service.FileInfoService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.FileInfoResponseDto;
 import com.laborfarm.core_app.service.exception.task.FileInfoNotFoundException;
@@ -17,7 +16,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

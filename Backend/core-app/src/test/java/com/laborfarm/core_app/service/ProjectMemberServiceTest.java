@@ -1,8 +1,7 @@
-package com.laborfarm.core_app;
+package com.laborfarm.core_app.service;
 
 import com.laborfarm.core_app.entity.project.ProjectMember;
 import com.laborfarm.core_app.repository.ProjectMemberRepository;
-import com.laborfarm.core_app.service.ProjectMemberService;
 import com.laborfarm.core_app.service.dto.CustomResponseDto;
 import com.laborfarm.core_app.service.dto.ProjectMemberRequestDto;
 import com.laborfarm.core_app.service.dto.ProjectMemberResponseDto;

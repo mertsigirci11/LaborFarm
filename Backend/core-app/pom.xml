@@ -109,9 +109,12 @@
 				<configuration>
 					<excludes>
 						<exclude>com/laborfarm/core_app/entity/**/*</exclude>
+						<exclude>com/laborfarm/core_app/config/**/*</exclude>
 						<exclude>com/laborfarm/core_app/service/exception/**/*</exclude>
 						<exclude>com/laborfarm/core_app/service/dto/**/*</exclude>
+						<exclude>com/laborfarm/core_app/service/KafkaConsumerService.class</exclude>
 						<exclude>com/laborfarm/core_app/service/mapper/**/*</exclude>
+						<exclude>com/laborfarm/core_app/controller/exceptionhandlers/**/*</exclude>
 						<exclude>com/laborfarm/core_app/CoreAppApplication.class</exclude>
 					</excludes>
 				</configuration>
