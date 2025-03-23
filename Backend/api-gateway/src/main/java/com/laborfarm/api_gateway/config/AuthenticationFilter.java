@@ -70,13 +70,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             return true;
         }
         if (path.startsWith("/auth/role")) {
-            return roles.containsValue("PROJECT_GROUP_MANAGER") || roles.containsValue("PROJECT_MANAGER");
+            return roles.containsValue("PROJECT_GROUP_MANAGER") || roles.containsValue("PROJECT_MANAGER")
+                    || roles.containsValue("TEAM_LEADER");
         }
         if (path.startsWith("/api/departments") || path.startsWith("/api/projects") || path.startsWith("/api/users")) {
             return roles.containsValue("PROJECT_GROUP_MANAGER");
         }
         if (path.startsWith("/api/projectmembers")) {
-            return roles.containsValue("PROJECT_GROUP_MANAGER") || roles.containsValue("PROJECT_MANAGER");
+            return roles.containsValue("PROJECT_GROUP_MANAGER") || roles.containsValue("PROJECT_MANAGER")
+                    || roles.containsValue("TEAM_LEADER");
         }
         if (path.startsWith("/api/fileinfos") || path.startsWith("/api/taskcomments") || path.startsWith("/api/tasks")) {
             return !roles.isEmpty();

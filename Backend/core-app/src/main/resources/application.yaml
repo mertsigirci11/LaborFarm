@@ -27,3 +27,9 @@ spring:
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
         spring.json.trusted.packages: "*"
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8585/eureka
+
+
