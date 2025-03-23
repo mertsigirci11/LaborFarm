@@ -27,11 +27,11 @@ Each role has different levels of access to resources. After users register in t
     -   Can access task file information, task comments, and task-related resources.
 
 ## Technical Details
-#### **[System Overview]**
+#### **![System Overview](Assets/erd-diagram.png)**
 
 The backend of **Labor Farm** is developed using **Spring Boot**, with **PostgreSQL** as the database and **Kafka** for asynchronous communication. Database operations are handled by **Spring Data JPA** and the **Hibernate ORM** framework. In addition to the **Core App**, the main application contains interrelated database tables.
 
-#### **[System Workflow]**
+#### **![System Workflow](Assets/system-design.png)**
 
 ### **User Registration Flow**
 
