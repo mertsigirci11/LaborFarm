@@ -52,9 +52,6 @@ public class TaskServiceImpl implements TaskService {
         checkState(task, taskRequestDto);
 
         task = taskRepository.findByIdAndIsActiveTrue(taskRequestDto.getId());
-        if (task == null) {
-            throw new TaskNotFoundException();
-        }
 
         task.setUpdatedAt(new Date());
         task.setActive(true);

@@ -53,8 +53,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public CustomResponseDto<DepartmentDto> getDepartmentById(UUID id) {
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(DepartmentNotFoundException::new);
+        Department department = departmentRepository.findByIdAndIsActiveTrue(id);
+
+        if (department == null) {
+            throw new DepartmentNotFoundException();
+        }
 
         if (!department.isActive()) {
             throw new DepartmentNotActiveException();
@@ -94,11 +97,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     //Helper Methods
-    public DepartmentDto convertToDto(Department department) {
+    private DepartmentDto convertToDto(Department department) {
         return modelMapper.map(department, DepartmentDto.class);
     }
 
-    public Department convertToEntity(DepartmentDto departmentDto) {
+    private Department convertToEntity(DepartmentDto departmentDto) {
         return modelMapper.map(departmentDto, Department.class);
     }
 }

@@ -2,9 +2,7 @@ package com.laborfarm.core_app.service.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -12,6 +10,9 @@ import java.util.UUID;
 @Data
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentDto {
     private UUID id;
 

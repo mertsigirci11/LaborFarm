@@ -99,11 +99,11 @@ public class UserServiceImpl implements UserService {
     }
 
     //Helper Methods
-    public UserDto convertToDto(User user) {
+    private UserDto convertToDto(User user) {
         return modelMapper.map(user, UserDto.class);
     }
 
-    public User convertToEntity(UserDto userDto) {
+    private User convertToEntity(UserDto userDto) {
         return modelMapper.map(userDto, User.class);
     }
 }
